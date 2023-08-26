@@ -1,16 +1,27 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import Navigator from './src/routes/Routes';
-import {NavigationContainer} from '@react-navigation/native';
-import {PaperProvider} from 'react-native-paper';
-import {ThemeContext} from './src/contexts/ThemeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {AppDarkTheme, AppTheme} from './src/theme';
+import {
+  PropsWithChildren,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
-export default function App(): JSX.Element {
+type ThemeContextType = {
+  toggleTheme: () => void;
+  isThemeDark: boolean;
+};
+
+export const ThemeContext = createContext<ThemeContextType>({
+  toggleTheme: () => {},
+  isThemeDark: false,
+});
+
+export const ThemeContextProvider = ({children}: PropsWithChildren) => {
   const [isThemeDark, setIsThemeDark] = useState(false);
 
   const toggleTheme = useCallback(async () => {
-    setIsThemeDark((prevIsThemeDark: boolean) => {
+    setIsThemeDark(prevIsThemeDark => {
       const newIsThemeDark = !prevIsThemeDark;
       AsyncStorage.setItem('isThemeDark', JSON.stringify(newIsThemeDark));
       return newIsThemeDark;
@@ -28,15 +39,9 @@ export default function App(): JSX.Element {
     handlerTheme();
   }, []);
 
-  let theme = isThemeDark ? AppDarkTheme : AppTheme;
-
   return (
     <ThemeContext.Provider value={{toggleTheme, isThemeDark}}>
-      <PaperProvider theme={theme}>
-        <NavigationContainer>
-          <Navigator />
-        </NavigationContainer>
-      </PaperProvider>
+      {children}
     </ThemeContext.Provider>
   );
-}
+};

@@ -1,14 +1,23 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import React from 'react';
+import {Styles, useAppTheme} from '../../theme';
 
 const Dashboard = () => {
+  const theme = useAppTheme();
+  const styles = createStyles({theme});
   return (
-    <View>
-      <Text>Dashboard</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Text>ola</Text>
+    </SafeAreaView>
   );
 };
 
 export default Dashboard;
 
-const styles = StyleSheet.create({});
+const createStyles = ({theme}: Styles) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+  });
