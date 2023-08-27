@@ -3,13 +3,15 @@ import React, {FC} from 'react';
 import {Styles, useAppTheme} from '../../../theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
+import Plus from '../../../../assets/images/icons/Plus.svg';
+import Cog from '../../../../assets/images/icons/Cog.svg';
+
 interface Props {
   title: string;
   toScreen: string;
-  iconName?: string;
 }
 
-const Button: FC<Props> = ({title, toScreen, iconName}) => {
+const Button: FC<Props> = ({title, toScreen}) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
   const navigation = useNavigation();
@@ -20,7 +22,11 @@ const Button: FC<Props> = ({title, toScreen, iconName}) => {
 
   return (
     <TouchableOpacity style={styles.button} onPress={handlePress}>
-      <Icon name={`${iconName}`} size={40} color={theme.colors.primary} />
+      {title !== 'Ajustes' ? (
+        <Plus width={40} height={40} fill={theme.colors.primary} />
+      ) : (
+        <Cog width={40} height={40} fill={theme.colors.primary} />
+      )}
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );

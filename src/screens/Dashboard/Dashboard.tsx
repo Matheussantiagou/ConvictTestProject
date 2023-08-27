@@ -39,12 +39,8 @@ const Dashboard = () => {
       </View>
       <View style={styles.body}>
         <View style={styles.buttonsContainer}>
-          <Button
-            title={'Adicionar Produtor'}
-            toScreen={'AddProducer'}
-            iconName={'plus'}
-          />
-          <Button title={'Ajustes'} toScreen={'Settings'} iconName={'cog'} />
+          <Button title={'Adicionar Produtor'} toScreen={'AddProducer'} />
+          <Button title={'Ajustes'} toScreen={'Settings'} />
         </View>
       </View>
     </SafeAreaView>
