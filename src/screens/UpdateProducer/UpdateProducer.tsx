@@ -4,6 +4,7 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import {Styles, useAppTheme} from '../../theme';
@@ -11,45 +12,115 @@ import {TopBar} from '../../components';
 import AddProducerInput from '../AddProducer/components/AddProducerInput';
 import AddProducerDropdown from '../AddProducer/components/AddProducerDropdown';
 import Button from '../AddProducer/components/Button';
+import {database} from '../../services/watermelon';
+import {useNavigation} from '@react-navigation/native';
+import {IProducer} from '../../@types/model';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const UpdateProducer = () => {
+const UpdateProducer = ({route}: any) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
-  const [name, setName] = React.useState('');
-  const [milkProdution, setMilkProdution] = React.useState(0);
+  const {name, daily_production, region, dairies, negociation, id} =
+    route.params.item._raw;
+  const [producerName, setName] = React.useState(name);
+  const [milkProdution, setMilkProdution] = React.useState(daily_production);
+  const [producerRegion, setRegion] = React.useState(region);
+  const [milkName, setMilkName] = React.useState(route?.params.item.dairies);
+  const [negociationStatus, setNegociationStatus] = React.useState(negociation);
+  const navigation = useNavigation();
+
+  async function handleUpdateRegister() {
+    await database.write(async () => {
+      const producers: any = await database.get('producers').find(id);
+      await producers.update(() => {
+        producers.name = producerName;
+        producers.daily_production = milkProdution;
+        producers.region = producerRegion;
+        producers.dairies = milkName;
+        producers.negociation = negociationStatus;
+      });
+    });
+
+    navigation.goBack();
+  }
+
+  async function handleDeleteRegister() {
+    await database.write(async () => {
+      const producers: any = await database.get('producers').find(id);
+      await producers.destroyPermanently();
+    });
+
+    navigation.goBack();
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <TopBar title={'Adicionar Produtor'} />
-      <View style={styles.body}>
-        <AddProducerInput
-          value={name}
-          setValue={setName}
-          placeholder={'Nome do Produtor'}
-          title={'Nome'}
-        />
-        <AddProducerInput
-          value={milkProdution}
-          setValue={setMilkProdution}
-          placeholder={'Produção em Litros'}
-          title={'Produção Mensal'}
-        />
-        <AddProducerDropdown id={2} title={'Região'} />
-        <AddProducerDropdown id={1} title={'Laticínio'} />
+      <ScrollView
+        nestedScrollEnabled={true}
+        contentContainerStyle={styles.scrollContent}>
+        <View style={styles.body}>
+          <AddProducerInput
+            value={producerName}
+            setValue={setName}
+            placeholder={'Nome do Produtor'}
+            title={'Nome'}
+          />
+          <AddProducerInput
+            value={milkProdution}
+            setValue={setMilkProdution}
+            placeholder={'Produção em Litros'}
+            title={'Produção Mensal'}
+          />
+          <AddProducerDropdown
+            id={2}
+            title={'Região'}
+            value={producerRegion}
+            setValue={setRegion}
+          />
+          <AddProducerDropdown
+            id={1}
+            title={'Laticínio'}
+            value={milkName}
+            setValue={setMilkName}
+          />
 
-        <Text style={styles.title}>Status do Acordo</Text>
+          <Text style={styles.title}>Status do Acordo</Text>
 
-        <View style={styles.buttonsContainer}>
-          <Button title={'Recusado'} />
-          <Button title={'Em negociação'} />
-          <Button title={'Contratado'} />
+          <View style={styles.buttonsContainer}>
+            <Button
+              title={'Recusado'}
+              value={'closed'}
+              setNegociationStatus={setNegociationStatus}
+            />
+            <Button
+              title={'Em negociação'}
+              value={'in progress'}
+              setNegociationStatus={setNegociationStatus}
+            />
+            <Button
+              title={'Contratado'}
+              value={'done'}
+              setNegociationStatus={setNegociationStatus}
+            />
+          </View>
+
+          <TouchableOpacity
+            onPress={handleDeleteRegister}
+            style={styles.deleteButton}>
+            <Text style={styles.deleteText}>Deletar Produtor</Text>
+            <Icon name={'trash-can'} color={theme.colors.error} size={25} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={handleUpdateRegister}
+            style={styles.footerButton}>
+            <Text style={[styles.title, {color: theme.colors.onPrimary}]}>
+              Atualizar
+            </Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.footerButton}>
-          <Text style={[styles.title, {color: theme.colors.onPrimary}]}>
-            Atualizar
-          </Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -58,6 +129,9 @@ export default UpdateProducer;
 
 const createStyles = ({theme}: Styles) =>
   StyleSheet.create({
+    scrollContent: {
+      flexGrow: 1,
+    },
     container: {
       flex: 1,
       backgroundColor: theme.colors.background,
@@ -84,5 +158,17 @@ const createStyles = ({theme}: Styles) =>
       borderRadius: 5,
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    deleteButton: {
+      paddingVertical: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 10,
+    },
+    deleteText: {
+      color: theme.colors.error,
+      alignSelf: 'center',
+      fontWeight: '500',
     },
   });

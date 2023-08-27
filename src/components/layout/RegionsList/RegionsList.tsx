@@ -5,6 +5,7 @@ import HeaderTitle from '../../../screens/Dashboard/components/HeaderTitle';
 
 interface RegionProps {
   isAtHome?: boolean;
+  setRegionState: any;
 }
 
 const regions = [
@@ -15,7 +16,7 @@ const regions = [
   {id: 5, nome: 'Centro-Oeste'},
 ];
 
-const RegionsList: FC<RegionProps> = ({isAtHome}) => {
+const RegionsList: FC<RegionProps> = ({isAtHome, setRegionState}) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
   const [selectedRegion, setSelectedRegion] = React.useState(1);
@@ -31,8 +32,8 @@ const RegionsList: FC<RegionProps> = ({isAtHome}) => {
         renderItem={({item}) => (
           <TouchableOpacity
             onPress={() => {
-              // console.log('item', item);
               setSelectedRegion(item.id);
+              setRegionState(item.nome);
             }}
             style={[
               styles.button,

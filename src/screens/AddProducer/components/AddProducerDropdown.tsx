@@ -6,41 +6,42 @@ import DropDownPicker from 'react-native-dropdown-picker';
 interface Props {
   title: string;
   id: number;
+  value: any;
+  setValue: (value: any) => void;
 }
 
-const AddProducerDropdown: FC<Props> = ({title, id}) => {
+const AddProducerDropdown: FC<Props> = ({title, id, value, setValue}) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
   const [items, setItems] = useState([
     {label: 'Apple', value: 'apple'},
     {label: 'Banana', value: 'banana'},
   ]);
 
   const regions = [
-    {value: 1, label: 'Nordeste'},
-    {value: 2, label: 'Sul'},
-    {value: 3, label: 'Sudeste'},
-    {value: 4, label: 'Norte'},
-    {value: 5, label: 'Centro-Oeste'},
+    {value: 'Nordeste', label: 'Nordeste'},
+    {value: 'Sul', label: 'Sul'},
+    {value: 'Sudeste', label: 'Sudeste'},
+    {value: 'Norte', label: 'Norte'},
+    {value: 'Centro-Oeste', label: 'Centro-Oeste'},
   ];
 
   const dairies = [
     {
-      value: 1,
+      value: 'Leite Fresco',
       label: 'Leite Fresco',
     },
     {
-      value: 2,
+      value: 'Sabor Puro',
       label: 'Sabor Puro',
     },
     {
-      value: 3,
+      value: 'Vaca Feliz',
       label: 'Vaca Feliz',
     },
     {
-      value: 4,
+      value: 'Gosto Natural',
       label: 'Gosto Natural',
     },
   ];

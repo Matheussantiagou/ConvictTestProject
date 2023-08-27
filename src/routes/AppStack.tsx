@@ -3,11 +3,14 @@ import Dashboard from '../screens/Dashboard/Dashboard';
 import BottomBar from '../components/layout/BottomBar/BottomBar';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AddProducer from '../screens/AddProducer/AddProducer';
+import UpdateProducer from '../screens/UpdateProducer/UpdateProducer';
 
 export type AppStackParamList = {
   Dashboard: undefined;
   Produtores: undefined;
   BottomBar: undefined;
+  AddProducer: undefined;
+  UpdateProducer: undefined;
 };
 
 export type StackScreens = keyof AppStackParamList;
@@ -22,6 +25,7 @@ export function AppStackNavigator() {
       }}>
       <AppStack.Screen name="BottomBar" component={BottomBar} />
       <AppStack.Screen name="AddProducer" component={AddProducer} />
+      <AppStack.Screen name="UpdateProducer" component={UpdateProducer} />
     </AppStack.Navigator>
   );
 }

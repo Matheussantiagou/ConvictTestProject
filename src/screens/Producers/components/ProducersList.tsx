@@ -2,76 +2,23 @@ import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Styles, useAppTheme} from '../../../theme';
 import Icon from 'react-native-vector-icons/Feather';
+import {IProducers} from '../../../@types/model';
+import {useNavigation} from '@react-navigation/native';
+import {ProducerListItem} from './ProducerListItem';
 
-const ProducersList = () => {
+export function ProducersList({producers}: any) {
   const theme = useAppTheme();
   const styles = createStyles({theme});
-  const producers = [
-    {
-      id: 1,
-      name: 'João Silva',
-      region: 'Nordeste',
-      daily_production: '1000',
-      negociation: 'done',
-    },
-    {
-      id: 2,
-      name: 'Maria Silva',
-      region: 'Nordeste',
-      daily_production: '500',
-      negociation: 'closed',
-    },
-    {
-      id: 3,
-      name: 'Carlos Silva',
-      region: 'Sul',
-      daily_production: '2000',
-      negociation: 'in progress',
-    },
-  ];
+
   return (
     <FlatList
+      keyExtractor={item => item.id.toString()}
       data={producers}
       ItemSeparatorComponent={() => <View style={{height: 10}} />}
-      renderItem={({item}) => (
-        <TouchableOpacity style={styles.item}>
-          <View style={styles.iconContainer}>
-            <Icon name="check" size={30} color={theme.colors.primary} />
-          </View>
-          <View style={styles.rightContainer}>
-            <View style={styles.titleView}>
-              <Text style={styles.titleName}>{item.name}</Text>
-
-              <Text style={styles.description}>
-                {item.negociation == 'done'
-                  ? 'Contratado'
-                  : item.negociation == 'closed'
-                  ? 'Recusado'
-                  : 'Negociação'}
-              </Text>
-            </View>
-            <View style={styles.dataContainer}>
-              <Text style={styles.titleName}>
-                {item.daily_production} L/dia
-              </Text>
-              <Text
-                style={[
-                  styles.description,
-                  {
-                    color: theme.colors.outline,
-                  },
-                ]}>
-                {item.region}
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      )}
+      renderItem={({item}) => <ProducerListItem item={item} />}
     />
   );
-};
-
-export default ProducersList;
+}
 
 const createStyles = ({theme}: Styles) =>
   StyleSheet.create({

@@ -45,7 +45,7 @@ const createStyles = ({theme}: Styles) =>
     },
     buttonText: {
       color: theme.colors.primary,
-      fontSize: 19,
+      fontSize: 18,
       fontWeight: '800',
     },
   });
