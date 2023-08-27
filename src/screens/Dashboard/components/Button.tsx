@@ -1,14 +1,15 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {FC} from 'react';
 import {Styles, useAppTheme} from '../../../theme';
-import Icon from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 interface Props {
   title: string;
   toScreen: string;
+  iconName?: string;
 }
 
-const Button: FC<Props> = ({title, toScreen}) => {
+const Button: FC<Props> = ({title, toScreen, iconName}) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
   const navigation = useNavigation();
@@ -19,7 +20,7 @@ const Button: FC<Props> = ({title, toScreen}) => {
 
   return (
     <TouchableOpacity style={styles.button} onPress={handlePress}>
-      <Icon name="squared-plus" size={50} color={theme.colors.primary} />
+      <Icon name={`${iconName}`} size={40} color={theme.colors.primary} />
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );

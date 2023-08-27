@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Styles, useAppTheme} from '../../theme';
 import {TopBar} from '../../components';
 import AddProducerInput from '../AddProducer/components/AddProducerInput';
@@ -16,17 +16,19 @@ import {database} from '../../services/watermelon';
 import {useNavigation} from '@react-navigation/native';
 import {IProducer} from '../../@types/model';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ConfirmDeleteModal from './components/ConfirmDeleteModal';
 
 const UpdateProducer = ({route}: any) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
-  const {name, daily_production, region, dairies, negociation, id} =
+  const [isVisible, setIsVisible] = useState(false);
+  const {name, daily_production, region, dairy_id, negociation, id} =
     route.params.item._raw;
-  const [producerName, setName] = React.useState(name);
-  const [milkProdution, setMilkProdution] = React.useState(daily_production);
-  const [producerRegion, setRegion] = React.useState(region);
-  const [milkName, setMilkName] = React.useState(route?.params.item.dairies);
-  const [negociationStatus, setNegociationStatus] = React.useState(negociation);
+  const [producerName, setName] = useState(name);
+  const [milkProdution, setMilkProdution] = useState(daily_production);
+  const [producerRegion, setRegion] = useState(region);
+  const [milkName, setMilkName] = useState(dairy_id);
+  const [negociationStatus, setNegociationStatus] = useState(negociation);
   const navigation = useNavigation();
 
   async function handleUpdateRegister() {
@@ -36,7 +38,7 @@ const UpdateProducer = ({route}: any) => {
         producers.name = producerName;
         producers.daily_production = milkProdution;
         producers.region = producerRegion;
-        producers.dairies = milkName;
+        producers.dairy_id = milkName;
         producers.negociation = negociationStatus;
       });
     });
@@ -56,6 +58,11 @@ const UpdateProducer = ({route}: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <TopBar title={'Adicionar Produtor'} />
+      <ConfirmDeleteModal
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        onConfirm={handleDeleteRegister}
+      />
       <ScrollView
         nestedScrollEnabled={true}
         contentContainerStyle={styles.scrollContent}>
@@ -106,7 +113,7 @@ const UpdateProducer = ({route}: any) => {
           </View>
 
           <TouchableOpacity
-            onPress={handleDeleteRegister}
+            onPress={() => setIsVisible(true)}
             style={styles.deleteButton}>
             <Text style={styles.deleteText}>Deletar Produtor</Text>
             <Icon name={'trash-can'} color={theme.colors.error} size={25} />

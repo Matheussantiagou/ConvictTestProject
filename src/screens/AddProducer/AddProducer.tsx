@@ -33,16 +33,11 @@ const AddProducer = () => {
         producers.name = name;
         producers.daily_production = milkProdution;
         producers.region = region;
-        producers.dairies = milkName;
+        producers.dairy_id = milkName;
         producers.negociation = negociationStatus;
       });
     });
     navigation.goBack();
-    setMilkName('');
-    setMilkProdution(0);
-    setName('');
-    setRegion('');
-    setNegociationStatus('');
   }
 
   return (

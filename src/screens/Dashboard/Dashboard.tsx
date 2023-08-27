@@ -1,27 +1,50 @@
 import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Styles, useAppTheme} from '../../theme';
 import MonthlyRevenue from './components/MonthlyRevenue';
 import {RegionsList} from '../../components';
 import MilkPrice from './components/MilkPrice';
 import Button from './components/Button';
 
+import {useNavigation} from '@react-navigation/native';
+import useDatabase from '../../hooks/useDatabase';
+import {useAppSelector} from '../../store/redux';
+
 const Dashboard = () => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
+  const navigation = useNavigation();
+  const {getAllProducers, getMilkPrice, totalProduction, getDairies} =
+    useDatabase();
+  const {milkPrice, defaultRegion} = useAppSelector(state => state.dataBase);
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('Dashboard focused');
+      getMilkPrice();
+      getDairies();
+    });
+    getAllProducers();
+    return unsubscribe;
+  }, [navigation, defaultRegion, milkPrice]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Dashboard</Text>
         <RegionsList isAtHome />
-        <MonthlyRevenue />
+        <MonthlyRevenue value={totalProduction} />
         <View style={styles.line} />
         <MilkPrice />
       </View>
       <View style={styles.body}>
         <View style={styles.buttonsContainer}>
-          <Button title={'Adicionar Produtor'} toScreen={'AddProducer'} />
-          <Button title={'Ajustes'} toScreen={''} />
+          <Button
+            title={'Adicionar Produtor'}
+            toScreen={'AddProducer'}
+            iconName={'plus'}
+          />
+          <Button title={'Ajustes'} toScreen={'Settings'} iconName={'cog'} />
         </View>
       </View>
     </SafeAreaView>

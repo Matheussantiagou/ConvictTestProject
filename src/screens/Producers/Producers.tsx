@@ -8,19 +8,35 @@ import {database} from '../../services/watermelon';
 import withObservables from '@nozbe/with-observables';
 import {ProducersList} from './components/ProducersList';
 import {Q} from '@nozbe/watermelondb';
+import {useAppSelector} from '../../store/redux';
 //
 
 const producersDB = database.collections.get('producers');
 // const observeCategories = () => db.query(Q.where('name', 'matheus')).observe(); //Para fazer buscar por coisas especificas
 
+const regions = [
+  {id: 1, nome: 'Nordeste'},
+  {id: 2, nome: 'Sul'},
+  {id: 3, nome: 'Sudeste'},
+  {id: 4, nome: 'Norte'},
+  {id: 5, nome: 'Centro-Oeste'},
+];
+
 const Producers = () => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
   const [value, setValue] = React.useState('');
-  const [region, setRegionState] = React.useState('Nordeste');
+  const {defaultRegion} = useAppSelector(state => state.dataBase);
 
-  const observeProducers = () =>
-    producersDB.query(Q.where('region', `${region}`)).observe();
+  const observeProducers = () => {
+    const filteredQuery = Q.and(
+      Q.where('region', `${regions[defaultRegion - 1]?.nome.toLowerCase()}`),
+      Q.where('name', Q.like(`%${value.toLowerCase()}%`)),
+    );
+
+    return producersDB.query(filteredQuery).observe();
+  };
+
   const enchanceWithProducers = withObservables([], () => ({
     producers: observeProducers(),
   }));
@@ -30,7 +46,7 @@ const Producers = () => {
     <SafeAreaView style={styles.container}>
       <TopBar title={'Produtores'} />
       <View style={styles.body}>
-        <RegionsList setRegionState={setRegionState} />
+        <RegionsList />
         <TextInput
           placeholder={'Nome do Produtor...'}
           placeholderTextColor={theme.colors.outline}

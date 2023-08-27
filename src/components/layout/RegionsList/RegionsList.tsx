@@ -1,11 +1,14 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {Styles, useAppTheme} from '../../../theme';
 import HeaderTitle from '../../../screens/Dashboard/components/HeaderTitle';
+import {useDispatch} from 'react-redux';
+import {useAppSelector} from '../../../store/redux';
+import {setDefaultRegion} from '../../../store/redux/slices/dataBaseSlice';
 
 interface RegionProps {
   isAtHome?: boolean;
-  setRegionState: any;
+  setRegionState?: any;
 }
 
 const regions = [
@@ -16,10 +19,11 @@ const regions = [
   {id: 5, nome: 'Centro-Oeste'},
 ];
 
-const RegionsList: FC<RegionProps> = ({isAtHome, setRegionState}) => {
+const RegionsList: FC<RegionProps> = ({isAtHome}) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
-  const [selectedRegion, setSelectedRegion] = React.useState(1);
+  const {defaultRegion} = useAppSelector(state => state.dataBase);
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -32,14 +36,13 @@ const RegionsList: FC<RegionProps> = ({isAtHome, setRegionState}) => {
         renderItem={({item}) => (
           <TouchableOpacity
             onPress={() => {
-              setSelectedRegion(item.id);
-              setRegionState(item.nome);
+              dispatch(setDefaultRegion(item.id));
             }}
             style={[
               styles.button,
               {
                 backgroundColor:
-                  selectedRegion == item.id
+                  defaultRegion == item.id
                     ? isAtHome
                       ? theme.colors.secondary
                       : theme.colors.primary
@@ -53,7 +56,7 @@ const RegionsList: FC<RegionProps> = ({isAtHome, setRegionState}) => {
                 styles.buttonText,
                 {
                   color:
-                    selectedRegion == item.id
+                    defaultRegion == item.id
                       ? theme.colors.onPrimary
                       : isAtHome
                       ? theme.colors.onPrimary
@@ -82,6 +85,7 @@ const createStyles = ({theme}: Styles) =>
       width: '100%',
       paddingLeft: 20,
       paddingBottom: 5,
+      paddingRight: 10,
     },
     button: {
       paddingHorizontal: 10,

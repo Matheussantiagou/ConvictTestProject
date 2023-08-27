@@ -6,15 +6,15 @@ export default appSchema({
     tableSchema({
       name: 'producers',
       columns: [
+        {name: 'daily_production', type: 'number'},
+        {name: 'dairy_id', type: 'string'},
         {name: 'name', type: 'string'},
-        {name: 'region', type: 'string'},
-        {name: 'daily_production', type: 'string'},
         {name: 'negociation', type: 'string'},
-        {name: 'dairies', type: 'number'},
+        {name: 'region', type: 'string'},
       ],
     }),
     tableSchema({
-      name: 'milk_prices',
+      name: 'milk_price',
       columns: [
         {name: 'month', type: 'number'},
         {name: 'value', type: 'number'},
@@ -23,7 +23,7 @@ export default appSchema({
     }),
     tableSchema({
       name: 'dairies',
-      columns: [{name: 'name', type: 'number', isIndexed: true}],
+      columns: [{name: 'name', type: 'string'}],
     }),
   ],
 });

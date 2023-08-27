@@ -1,15 +1,18 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Styles, useAppTheme} from '../../../theme';
 import HeaderTitle from './HeaderTitle';
 
-const MonthlyRevenue = () => {
+const MonthlyRevenue = ({value}: any) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
+
+  // console.log(producers[0]._raw);
+
   return (
     <View style={styles.container}>
       <HeaderTitle title="Receita Mensal" />
-      <Text style={styles.revenue}>R$ 30.523,20</Text>
+      <Text style={styles.revenue}>R$ {value?.toLocaleString() || 0}</Text>
     </View>
   );
 };

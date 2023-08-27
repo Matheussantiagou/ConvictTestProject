@@ -1,0 +1,284 @@
+{
+  "dairies": [
+    {
+      "id": "dairy1",
+      "name": "Leite Fresco"
+    },
+    {
+      "id": "dairy2",
+      "name": "Sabor Puro"
+    },
+    {
+      "id": "dairy3",
+      "name": "Vaca Feliz"
+    },
+    {
+      "id": "dairy4",
+      "name": "Gosto Natural"
+    }
+  ],
+  "milk_price": [
+    {
+      "month": 8,
+      "value": 3.75,
+      "year": 2023
+    },
+    {
+      "month": 7,
+      "value": 4.12,
+      "year": 2023
+    },
+    {
+      "month": 6,
+      "value": 4.25,
+      "year": 2023
+    },
+    {
+      "month": 5,
+      "value": 3.88,
+      "year": 2023
+    }
+  ],
+  "producers": [
+    {
+      "daily_production": 100,
+      "dairy_id": "dairy1",
+      "id": "prod1",
+      "name": "João Silva",
+      "negociation": "done",
+      "region": "nordeste"
+    },
+    {
+      "daily_production": 150,
+      "dairy_id": "dairy1",
+      "id": "prod2",
+      "name": "Maria Oliveira",
+      "negociation": "closed",
+      "region": "sudeste"
+    },
+    {
+      "daily_production": 80,
+      "dairy_id": "dairy2",
+      "id": "prod3",
+      "name": "Carlos Santos",
+      "negociation": "in progress",
+      "region": "centro-oeste"
+    },
+    {
+      "daily_production": 120,
+      "dairy_id": "dairy2",
+      "id": "prod4",
+      "name": "Ana Pereira",
+      "negociation": "done",
+      "region": "norte"
+    },
+    {
+      "daily_production": 153,
+      "dairy_id": "dairy3",
+      "id": "prod5",
+      "name": "Pedro Almeida",
+      "negociation": "closed",
+      "region": "sul"
+    },
+    {
+      "daily_production": 110,
+      "dairy_id": "dairy3",
+      "id": "prod6",
+      "name": "Mariana Santos",
+      "negociation": "in progress",
+      "region": "sudeste"
+    },
+    {
+      "daily_production": 70,
+      "dairy_id": "dairy4",
+      "id": "prod7",
+      "name": "Fernando Oliveira",
+      "negociation": "done",
+      "region": "nordeste"
+    },
+    {
+      "daily_production": 130,
+      "dairy_id": "dairy4",
+      "id": "prod8",
+      "name": "Cristina Lima",
+      "negociation": "closed",
+      "region": "centro-oeste"
+    },
+    {
+      "daily_production": 95,
+      "dairy_id": "dairy1",
+      "id": "prod9",
+      "name": "Ricardo Ferreira",
+      "negociation": "in progress",
+      "region": "norte"
+    },
+    {
+      "daily_production": 85,
+      "dairy_id": "dairy2",
+      "id": "prod10",
+      "name": "Amanda Rodrigues",
+      "negociation": "done",
+      "region": "sul"
+    },
+    {
+      "daily_production": 105,
+      "dairy_id": "dairy3",
+      "id": "prod11",
+      "name": "Gustavo Sousa",
+      "negociation": "in progress",
+      "region": "sudeste"
+    },
+    {
+      "daily_production": 75,
+      "dairy_id": "dairy4",
+      "id": "prod12",
+      "name": "Patrícia Costa",
+      "negociation": "closed",
+      "region": "centro-oeste"
+    },
+    {
+      "daily_production": 140,
+      "dairy_id": "dairy1",
+      "id": "prod13",
+      "name": "Lucas Santos",
+      "negociation": "done",
+      "region": "sudeste"
+    },
+    {
+      "daily_production": 65,
+      "dairy_id": "dairy2",
+      "id": "prod14",
+      "name": "Isabela Oliveira",
+      "negociation": "closed",
+      "region": "norte"
+    },
+    {
+      "daily_production": 115,
+      "dairy_id": "dairy3",
+      "id": "prod15",
+      "name": "Marcos Silva",
+      "negociation": "in progress",
+      "region": "sul"
+    },
+    {
+      "daily_production": 90,
+      "dairy_id": "dairy4",
+      "id": "prod16",
+      "name": "Laura Fernandes",
+      "negociation": "done",
+      "region": "nordeste"
+    },
+    {
+      "daily_production": 125,
+      "dairy_id": "dairy1",
+      "id": "prod17",
+      "name": "Rafael Sousa",
+      "negociation": "in progress",
+      "region": "centro-oeste"
+    },
+    {
+      "daily_production": 70,
+      "dairy_id": "dairy2",
+      "id": "prod18",
+      "name": "Juliana Lima",
+      "negociation": "closed",
+      "region": "sudeste"
+    },
+    {
+      "daily_production": 100,
+      "dairy_id": "dairy3",
+      "id": "prod19",
+      "name": "André Costa",
+      "negociation": "done",
+      "region": "norte"
+    },
+    {
+      "daily_production": 110,
+      "dairy_id": "dairy4",
+      "id": "prod20",
+      "name": "Camila Rodrigues",
+      "negociation": "in progress",
+      "region": "sul"
+    },
+    {
+      "daily_production": 105,
+      "dairy_id": "dairy1",
+      "id": "prod21",
+      "name": "Rodrigo Santos",
+      "negociation": "done",
+      "region": "nordeste"
+    },
+    {
+      "daily_production": 80,
+      "dairy_id": "dairy2",
+      "id": "prod22",
+      "name": "Bianca Fernandes",
+      "negociation": "closed",
+      "region": "sudeste"
+    },
+    {
+      "daily_production": 120,
+      "dairy_id": "dairy3",
+      "id": "prod23",
+      "name": "Eduardo Lima",
+      "negociation": "in progress",
+      "region": "norte"
+    },
+    {
+      "daily_production": 95,
+      "dairy_id": "dairy4",
+      "id": "prod24",
+      "name": "Renata Almeida",
+      "negociation": "done",
+      "region": "sul"
+    },
+    {
+      "daily_production": 110,
+      "dairy_id": "dairy1",
+      "id": "prod25",
+      "name": "Marcelo Oliveira",
+      "negociation": "in progress",
+      "region": "sudeste"
+    },
+    {
+      "daily_production": 70,
+      "dairy_id": "dairy2",
+      "id": "prod26",
+      "name": "Catarina Santos",
+      "negociation": "closed",
+      "region": "centro-oeste"
+    },
+    {
+      "daily_production": 130,
+      "dairy_id": "dairy3",
+      "id": "prod27",
+      "name": "Hugo Costa",
+      "negociation": "done",
+      "region": "nordeste"
+    },
+    {
+      "daily_production": 90,
+      "dairy_id": "dairy4",
+      "id": "prod28",
+      "name": "Larissa Sousa",
+      "negociation": "in progress",
+      "region": "sudeste"
+    },
+    {
+      "daily_production": 115,
+      "dairy_id": "dairy1",
+      "id": "prod29",
+      "name": "Vinícius Lima",
+      "negociation": "closed",
+      "region": "centro-oeste"
+    },
+    {
+      "daily_production": 75,
+      "dairy_id": "dairy2",
+      "id": "prod30",
+      "name": "Aline Rodrigues",
+      "negociation": "done",
+      "region": "norte"
+    }
+  ]
+}

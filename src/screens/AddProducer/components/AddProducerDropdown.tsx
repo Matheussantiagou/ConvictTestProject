@@ -1,7 +1,9 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {FC, useState} from 'react';
+import React, {FC, useState, useEffect} from 'react';
 import {Styles, useAppTheme} from '../../../theme';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {database} from '../../../services/watermelon';
+import {useAppSelector} from '../../../store/redux';
 
 interface Props {
   title: string;
@@ -14,37 +16,17 @@ const AddProducerDropdown: FC<Props> = ({title, id, value, setValue}) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
   const [open, setOpen] = useState(false);
-  const [items, setItems] = useState([
-    {label: 'Apple', value: 'apple'},
-    {label: 'Banana', value: 'banana'},
-  ]);
+  const {dairies} = useAppSelector(state => state.dataBase);
 
   const regions = [
-    {value: 'Nordeste', label: 'Nordeste'},
-    {value: 'Sul', label: 'Sul'},
-    {value: 'Sudeste', label: 'Sudeste'},
-    {value: 'Norte', label: 'Norte'},
-    {value: 'Centro-Oeste', label: 'Centro-Oeste'},
+    {value: 'nordeste', label: 'Nordeste'},
+    {value: 'sul', label: 'Sul'},
+    {value: 'sudeste', label: 'Sudeste'},
+    {value: 'norte', label: 'Norte'},
+    {value: 'centro-oeste', label: 'Centro-Oeste'},
   ];
 
-  const dairies = [
-    {
-      value: 'Leite Fresco',
-      label: 'Leite Fresco',
-    },
-    {
-      value: 'Sabor Puro',
-      label: 'Sabor Puro',
-    },
-    {
-      value: 'Vaca Feliz',
-      label: 'Vaca Feliz',
-    },
-    {
-      value: 'Gosto Natural',
-      label: 'Gosto Natural',
-    },
-  ];
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -55,7 +37,6 @@ const AddProducerDropdown: FC<Props> = ({title, id, value, setValue}) => {
         items={title === 'Região' ? regions : dairies}
         setOpen={setOpen}
         setValue={setValue}
-        setItems={setItems}
         style={{...styles.input, zIndex: id * 1000 + 1}}
         placeholder="Selecionar"
         placeholderStyle={{
