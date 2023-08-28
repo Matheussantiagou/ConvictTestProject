@@ -97,15 +97,15 @@ const AddProducer = () => {
               setNegociationStatus={setNegociationStatus}
             />
           </View>
-          <TouchableOpacity
-            onPress={handlePressRegister}
-            style={styles.footerButton}>
-            <Text style={[styles.title, {color: theme.colors.onPrimary}]}>
-              Cadastrar
-            </Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
+      <TouchableOpacity
+        onPress={handlePressRegister}
+        style={styles.footerButton}>
+        <Text style={[styles.title, {color: theme.colors.onPrimary}]}>
+          Cadastrar
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -116,9 +116,12 @@ const createStyles = ({theme}: Styles) =>
   StyleSheet.create({
     scrollContent: {
       flexGrow: 1,
+      // borderWidth: 1,
     },
     container: {
       flex: 1,
+      // borderWidth: 1,
+
       backgroundColor: theme.colors.background,
     },
     body: {
@@ -139,9 +142,11 @@ const createStyles = ({theme}: Styles) =>
     footerButton: {
       backgroundColor: theme.colors.primary,
       height: 50,
-      width: '100%',
+      width: '90%',
       borderRadius: 5,
       justifyContent: 'center',
       alignItems: 'center',
+      alignSelf: 'center',
+      marginBottom: 10,
     },
   });

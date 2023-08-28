@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Styles, useAppTheme} from '../../theme';
 import {TopBar} from '../../components';
 import AddProducerInput from '../AddProducer/components/AddProducerInput';
@@ -58,8 +58,19 @@ const UpdateProducer = ({route}: any) => {
   const getDairiesTable = async () => {
     const dairiesDB = await database.get('dairies').query().fetch();
 
-    return dairiesDB;
+    const simplifiedDairies = dairiesDB.map((dairy: any) => {
+      return {
+        id: dairy.dairy_id,
+        name: dairy.name,
+      };
+    });
+
+    console.log(simplifiedDairies);
   };
+
+  useEffect(() => {
+    getDairiesTable();
+  }, []);
 
   async function handleUpdateRegister() {
     await database.write(async () => {
@@ -145,23 +156,22 @@ const UpdateProducer = ({route}: any) => {
               setNegociationStatus={setNegociationStatus}
             />
           </View>
-
-          <TouchableOpacity
-            onPress={() => setIsVisible(true)}
-            style={styles.deleteButton}>
-            <Text style={styles.deleteText}>Deletar Produtor</Text>
-            <Icon name={'trash-can'} color={theme.colors.error} size={25} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={handleUpdateRegister}
-            style={styles.footerButton}>
-            <Text style={[styles.title, {color: theme.colors.onPrimary}]}>
-              Atualizar
-            </Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
+      <TouchableOpacity
+        onPress={() => setIsVisible(true)}
+        style={styles.deleteButton}>
+        <Text style={styles.deleteText}>Deletar Produtor</Text>
+        <Icon name={'trash-can'} color={theme.colors.error} size={25} />
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={handleUpdateRegister}
+        style={styles.footerButton}>
+        <Text style={[styles.title, {color: theme.colors.onPrimary}]}>
+          Atualizar
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -195,10 +205,12 @@ const createStyles = ({theme}: Styles) =>
     footerButton: {
       backgroundColor: theme.colors.primary,
       height: 50,
-      width: '100%',
+      width: '90%',
       borderRadius: 5,
       justifyContent: 'center',
       alignItems: 'center',
+      alignSelf: 'center',
+      marginBottom: 10,
     },
     deleteButton: {
       paddingVertical: 20,
