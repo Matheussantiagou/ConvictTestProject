@@ -23,54 +23,16 @@ const UpdateProducer = ({route}: any) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
   const [isVisible, setIsVisible] = useState(false);
-  const {dairies} = useAppSelector(state => state.dataBase);
   const {name, daily_production, region, dairy_id, negociation, id} =
-    route.params.item._raw;
+    route.params.data;
   const [producerName, setName] = useState(name);
   const [milkProdution, setMilkProdution] = useState(
-    daily_production.toString(),
+    daily_production?.toString(),
   );
   const [producerRegion, setRegion] = useState(region);
   const [milkName, setMilkName] = useState(dairy_id);
   const [negociationStatus, setNegociationStatus] = useState(negociation);
   const navigation = useNavigation();
-
-  // const dairies = [
-  //   {
-  //     id: 'dairy1',
-  //     name: 'Leite Fresco',
-  //   },
-  //   {
-  //     id: 'dairy2',
-  //     name: 'Sabor Puro',
-  //   },
-  //   {
-  //     id: 'dairy3',
-  //     name: 'Vaca Feliz',
-  //   },
-  //   {
-  //     id: 'dairy4',
-  //     name: 'Gosto Natural',
-  //   },
-  // ];
-  // console.log(dairies.find(dairy => dairy.id === dairy_id));
-
-  const getDairiesTable = async () => {
-    const dairiesDB = await database.get('dairies').query().fetch();
-
-    const simplifiedDairies = dairiesDB.map((dairy: any) => {
-      return {
-        id: dairy.dairy_id,
-        name: dairy.name,
-      };
-    });
-
-    console.log(simplifiedDairies);
-  };
-
-  useEffect(() => {
-    getDairiesTable();
-  }, []);
 
   async function handleUpdateRegister() {
     await database.write(async () => {

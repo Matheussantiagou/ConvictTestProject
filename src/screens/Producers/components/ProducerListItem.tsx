@@ -17,12 +17,13 @@ function RawProducerListItem({item}: Props) {
   const styles = createStyles({theme});
   const navigation = useNavigation();
 
-  const handlePress = () => {
-    navigation.navigate('UpdateProducer', {item: item});
+  const handlePress = (item: any) => {
+    let data = item?._raw;
+    navigation.navigate('UpdateProducer', {data});
   };
 
   return (
-    <TouchableOpacity onPress={() => handlePress()} style={styles.item}>
+    <TouchableOpacity onPress={() => handlePress(item)} style={styles.item}>
       <View style={styles.iconContainer}>
         {item.negociation == 'done' ? (
           <Check width={22} height={22} fill={theme.colors.primary} />
