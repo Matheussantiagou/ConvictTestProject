@@ -2,24 +2,82 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {FC} from 'react';
 import {Styles, useAppTheme} from '../../../theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Check from '../../../../assets/images/icons/Check.svg';
+import CloseHexagon from '../../../../assets/images/icons/CloseHexagon.svg';
+import Handshake from '../../../../assets/images/icons/Handshake.svg';
 
 interface ButtonProps {
   title: string;
   setNegociationStatus: (value: string) => void;
   value: string;
+  negociationStatus: string;
 }
 
-const Button: FC<ButtonProps> = ({title, setNegociationStatus, value}) => {
+const Button: FC<ButtonProps> = ({
+  title,
+  setNegociationStatus,
+  value,
+  negociationStatus,
+}) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
+
   return (
     <TouchableOpacity
       onPress={() => {
         setNegociationStatus(value);
       }}
-      style={styles.button}>
-      <Icon name={'close'} size={30} color={theme.colors.primary} />
-      <Text numberOfLines={1} style={styles.title}>
+      style={[
+        styles.button,
+        {
+          backgroundColor:
+            negociationStatus === value
+              ? theme.colors.primary
+              : theme.colors.surfaceVariant,
+        },
+      ]}>
+      {value === 'done' ? (
+        <Check
+          width={30}
+          height={30}
+          fill={
+            negociationStatus === value
+              ? theme.colors.onPrimary
+              : theme.colors.primary
+          }
+        />
+      ) : value === 'in progress' ? (
+        <Handshake
+          width={30}
+          height={30}
+          fill={
+            negociationStatus === value
+              ? theme.colors.onPrimary
+              : theme.colors.primary
+          }
+        />
+      ) : (
+        <CloseHexagon
+          width={30}
+          height={30}
+          fill={
+            negociationStatus === value
+              ? theme.colors.onPrimary
+              : theme.colors.primary
+          }
+        />
+      )}
+      <Text
+        numberOfLines={1}
+        style={[
+          styles.title,
+          {
+            color:
+              negociationStatus === value
+                ? theme.colors.onPrimary
+                : theme.colors.primary,
+          },
+        ]}>
         {title}
       </Text>
     </TouchableOpacity>
@@ -39,8 +97,11 @@ const createStyles = ({theme}: Styles) =>
       alignItems: 'center',
     },
     title: {
+      marginTop: 5,
       fontSize: 14,
       fontWeight: '600',
       color: theme.colors.primary,
+      textAlign: 'center',
+      alignSelf: 'center',
     },
   });
