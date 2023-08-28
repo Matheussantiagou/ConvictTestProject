@@ -22,16 +22,18 @@ const AddProducer = () => {
   const styles = createStyles({theme});
   const navigation = useNavigation();
   const [name, setName] = useState('');
-  const [milkProdution, setMilkProdution] = useState(0);
+  const [milkProdution, setMilkProdution] = useState('');
   const [region, setRegion] = useState('');
   const [milkName, setMilkName] = useState('');
   const [negociationStatus, setNegociationStatus] = useState('');
+  const [isScrollEnabled, setScrollEnabled] = useState(false);
 
   async function handlePressRegister() {
+    console.log(typeof milkProdution);
     await database.write(async () => {
       await database.collections.get('producers').create((producers: any) => {
         producers.name = name;
-        producers.daily_production = milkProdution;
+        producers.daily_production = parseInt(milkProdution, 10);
         producers.region = region;
         producers.dairy_id = milkName;
         producers.negociation = negociationStatus;
@@ -43,7 +45,10 @@ const AddProducer = () => {
   return (
     <SafeAreaView style={styles.container}>
       <TopBar title={'Adicionar Produtor'} />
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        nestedScrollEnabled={true}
+        scrollEnabled
+        style={styles.scrollContent}>
         <View style={styles.body}>
           <AddProducerInput
             value={name}
@@ -55,7 +60,7 @@ const AddProducer = () => {
             value={milkProdution}
             setValue={setMilkProdution}
             placeholder={'Produção em Litros'}
-            title={'Produção Mensal'}
+            title={'Produção Diária'}
           />
           <AddProducerDropdown
             id={2}
@@ -76,16 +81,19 @@ const AddProducer = () => {
             <Button
               title={'Recusado'}
               value={'closed'}
+              negociationStatus={negociationStatus}
               setNegociationStatus={setNegociationStatus}
             />
             <Button
               title={'Em negociação'}
               value={'in progress'}
+              negociationStatus={negociationStatus}
               setNegociationStatus={setNegociationStatus}
             />
             <Button
               title={'Contratado'}
               value={'done'}
+              negociationStatus={negociationStatus}
               setNegociationStatus={setNegociationStatus}
             />
           </View>

@@ -50,6 +50,7 @@ const AddProducerDropdown: FC<Props> = ({title, id, value, setValue}) => {
           color: theme.colors.primary,
           fontWeight: '600',
         }}
+        listMode="SCROLLVIEW"
       />
     </>
   );
