@@ -28,11 +28,36 @@ const Producers = () => {
   const [value, setValue] = React.useState('');
   const {defaultRegion} = useAppSelector(state => state.dataBase);
 
+  const negociationTranslation = {
+    contratado: 'done',
+    recusado: 'closed',
+    negociação: 'in progress',
+    // Adicione mais traduções se necessário
+  };
+
   const observeProducers = () => {
-    const filteredQuery = Q.and(
-      Q.where('region', `${regions[defaultRegion - 1]?.nome.toLowerCase()}`),
-      Q.where('name', Q.like(`%${value.toLowerCase()}%`)),
+    const regionCondition = Q.where(
+      'region',
+      `${regions[defaultRegion - 1]?.nome.toLowerCase()}`,
     );
+
+    let translatedNegociation = negociationTranslation[value.toLowerCase()];
+
+    const nameCondition = Q.where('name', Q.like(`%${value.toLowerCase()}%`));
+    const negociationStatusCondition = Q.where(
+      'negociation',
+      Q.like(`%${translatedNegociation}%`),
+    );
+
+    let filteredQuery;
+
+    if (translatedNegociation) {
+      // Se a tradução existe, filtre apenas pelo status de negociação
+      filteredQuery = Q.and(regionCondition, negociationStatusCondition);
+    } else {
+      // Senão, continue buscando pelo nome
+      filteredQuery = Q.and(regionCondition, nameCondition);
+    }
 
     return producersDB.query(filteredQuery).observe();
   };
@@ -82,7 +107,7 @@ const createStyles = ({theme}: Styles) =>
     },
     body: {
       flex: 1,
-      paddingVertical: 20,
+      paddingTop: 20,
       gap: 15,
     },
   });
