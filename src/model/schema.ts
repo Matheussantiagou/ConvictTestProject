@@ -1,7 +1,7 @@
 import {appSchema, tableSchema} from '@nozbe/watermelondb';
 
 export default appSchema({
-  version: 3,
+  version: 1,
   tables: [
     tableSchema({
       name: 'producers',
@@ -23,7 +23,10 @@ export default appSchema({
     }),
     tableSchema({
       name: 'dairies',
-      columns: [{name: 'name', type: 'string'}],
+      columns: [
+        {name: 'name', type: 'string'},
+        {name: 'dairy_id', type: 'string'},
+      ],
     }),
   ],
 });
