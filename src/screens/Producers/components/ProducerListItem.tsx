@@ -4,6 +4,9 @@ import withObservables from '@nozbe/with-observables';
 import Icon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import {Styles, useAppTheme} from '../../../theme';
+import Check from '../../../../assets/images/icons/Check.svg';
+import CloseHexagon from '../../../../assets/images/icons/CloseHexagon.svg';
+import Handshake from '../../../../assets/images/icons/Handshake.svg';
 
 interface Props {
   producer: any;
@@ -14,14 +17,20 @@ function RawProducerListItem({item}: Props) {
   const styles = createStyles({theme});
   const navigation = useNavigation();
 
-  const handlePress = (producer: IProductors) => {
-    navigation.navigate('UpdateProducer', {item});
+  const handlePress = () => {
+    navigation.navigate('UpdateProducer', {item: item});
   };
 
   return (
-    <TouchableOpacity onPress={() => handlePress(item)} style={styles.item}>
+    <TouchableOpacity onPress={() => handlePress()} style={styles.item}>
       <View style={styles.iconContainer}>
-        <Icon name="check" size={30} color={theme.colors.primary} />
+        {item.negociation == 'done' ? (
+          <Check width={22} height={22} fill={theme.colors.primary} />
+        ) : item.negociation == 'closed' ? (
+          <CloseHexagon width={22} height={22} fill={theme.colors.primary} />
+        ) : (
+          <Handshake width={22} height={22} fill={theme.colors.primary} />
+        )}
       </View>
       <View style={styles.rightContainer}>
         <View style={styles.titleView}>
