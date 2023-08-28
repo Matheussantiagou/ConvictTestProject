@@ -114,7 +114,7 @@ export default function useDatabase() {
     const dairiesDB = await database.get('dairies').query().fetch();
     const simplifiedData = dairiesDB.map((record: any) => {
       return {
-        value: record._raw.id,
+        value: record._raw.dairy_id,
         label: record._raw.name,
       };
     });

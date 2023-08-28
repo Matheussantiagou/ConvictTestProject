@@ -1,7 +1,6 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {FC} from 'react';
+import React from 'react';
 import withObservables from '@nozbe/with-observables';
-import Icon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import {Styles, useAppTheme} from '../../../theme';
 import Check from '../../../../assets/images/icons/Check.svg';

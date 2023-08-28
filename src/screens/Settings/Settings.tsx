@@ -3,7 +3,6 @@ import React from 'react';
 import {Styles, useAppTheme} from '../../theme';
 import {TopBar} from '../../components';
 import BoxOptions from './components/BoxOptions';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import OptionsItem from './components/OptionsItem';
 import {database} from '../../services/watermelon';
 

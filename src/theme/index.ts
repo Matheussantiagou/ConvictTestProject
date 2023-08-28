@@ -32,7 +32,7 @@ export const AppTheme = {
     onTertiary: 'rgb(255, 255, 255)',
     tertiaryContainer: 'rgb(198, 231, 255)',
     onTertiaryContainer: 'rgb(0, 30, 45)',
-    error: 'rgb(186, 26, 26)',
+    error: '#ab3229',
     onError: 'rgb(255, 255, 255)',
     errorContainer: 'rgb(255, 218, 214)',
     onErrorContainer: 'rgb(65, 0, 2)',

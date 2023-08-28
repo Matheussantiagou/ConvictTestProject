@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
+import {StyleSheet, View, SafeAreaView} from 'react-native';
 import React from 'react';
 import {RegionsList, TopBar} from '../../components';
 import {TextInput} from 'react-native-paper';

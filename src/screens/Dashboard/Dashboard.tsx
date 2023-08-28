@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Styles, useAppTheme} from '../../theme';
 import MonthlyRevenue from './components/MonthlyRevenue';
 import {RegionsList} from '../../components';
@@ -9,7 +9,7 @@ import Button from './components/Button';
 import {useNavigation} from '@react-navigation/native';
 import useDatabase from '../../hooks/useDatabase';
 import {useAppSelector} from '../../store/redux';
-import Chart, {PieChartScreen} from './components/Chart';
+import {PieChartScreen} from './components/Chart';
 
 const Dashboard = () => {
   const theme = useAppTheme();

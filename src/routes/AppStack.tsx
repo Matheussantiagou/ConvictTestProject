@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AddProducer from '../screens/AddProducer/AddProducer';
 import UpdateProducer from '../screens/UpdateProducer/UpdateProducer';
 import Settings from '../screens/Settings/Settings';
+import MilkPriceHistory from '../screens/MilkPriceHistory/MilkPriceHistory';
 
 export type AppStackParamList = {
   Dashboard: undefined;
@@ -12,6 +13,8 @@ export type AppStackParamList = {
   AddProducer: undefined;
   UpdateProducer: undefined;
   Settings: undefined;
+  Produtores: undefined;
+  MilkPriceHistory: undefined;
 };
 
 export type StackScreens = keyof AppStackParamList;
@@ -28,6 +31,7 @@ export function AppStackNavigator() {
       <AppStack.Screen name="AddProducer" component={AddProducer} />
       <AppStack.Screen name="UpdateProducer" component={UpdateProducer} />
       <AppStack.Screen name="Settings" component={Settings} />
+      <AppStack.Screen name="MilkPriceHistory" component={MilkPriceHistory} />
     </AppStack.Navigator>
   );
 }

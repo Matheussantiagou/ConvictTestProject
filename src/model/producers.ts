@@ -1,7 +1,7 @@
-import {Model} from '@nozbe/watermelondb';
-import {field} from '@nozbe/watermelondb/decorators';
+import {Model, Relation} from '@nozbe/watermelondb';
+import {field, relation} from '@nozbe/watermelondb/decorators';
 
-export default class Category extends Model {
+export default class Producer extends Model {
   static table = 'producers';
 
   @field('daily_production') daily_production!: number;
@@ -9,4 +9,6 @@ export default class Category extends Model {
   @field('name') name!: string;
   @field('negociation') negociation!: string;
   @field('region') region!: string;
+
+  @relation('dairies', 'dairy_id') dairy: Relation; // Relação com a tabela 'dairies'
 }

@@ -6,6 +6,7 @@ export const dataBaseSlice = createSlice({
     milkPrice: 0,
     defaultRegion: 1,
     dairies: [],
+    percentage: 0,
   },
   reducers: {
     setReduxMilkPrice: (state, action) => {
@@ -17,10 +18,13 @@ export const dataBaseSlice = createSlice({
     setDairies: (state, action) => {
       state.dairies = action.payload;
     },
+    setPercentage: (state, action) => {
+      state.percentage = action.payload;
+    },
   },
 });
 
-export const {setReduxMilkPrice, setDefaultRegion, setDairies} =
+export const {setReduxMilkPrice, setDefaultRegion, setDairies, setPercentage} =
   dataBaseSlice.actions;
 
 export default dataBaseSlice.reducer;
