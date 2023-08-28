@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
 import React, {useEffect} from 'react';
 import {Styles, useAppTheme} from '../../theme';
 import MonthlyRevenue from './components/MonthlyRevenue';
@@ -9,13 +9,22 @@ import Button from './components/Button';
 import {useNavigation} from '@react-navigation/native';
 import useDatabase from '../../hooks/useDatabase';
 import {useAppSelector} from '../../store/redux';
+import Chart, {PieChartScreen} from './components/Chart';
 
 const Dashboard = () => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
   const navigation = useNavigation();
-  const {getAllProducers, getMilkPrice, totalProduction, getDairies} =
-    useDatabase();
+  const {
+    getAllProducers,
+    getMilkPrice,
+    totalProduction,
+    getDairies,
+    negocitionDone,
+    negocitionPending,
+    negocitionRejected,
+    getPercentageIncrease,
+  } = useDatabase();
   const {milkPrice, defaultRegion} = useAppSelector(state => state.dataBase);
 
   React.useEffect(() => {
@@ -23,6 +32,7 @@ const Dashboard = () => {
       console.log('Dashboard focused');
       getMilkPrice();
       getDairies();
+      getPercentageIncrease();
     });
     getAllProducers();
     return unsubscribe;
@@ -30,19 +40,34 @@ const Dashboard = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Dashboard</Text>
-        <RegionsList isAtHome />
-        <MonthlyRevenue value={totalProduction} />
-        <View style={styles.line} />
-        <MilkPrice />
-      </View>
-      <View style={styles.body}>
-        <View style={styles.buttonsContainer}>
-          <Button title={'Adicionar Produtor'} toScreen={'AddProducer'} />
-          <Button title={'Ajustes'} toScreen={'Settings'} />
+      <ScrollView
+        nestedScrollEnabled={true}
+        scrollEnabled
+        style={styles.scrollContent}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Dashboard</Text>
+          <RegionsList isAtHome />
+          <MonthlyRevenue value={totalProduction} />
+          <View style={styles.line} />
+          <MilkPrice />
         </View>
-      </View>
+        <View style={styles.body}>
+          <View style={styles.buttonsContainer}>
+            <Button title={'Adicionar Produtor'} toScreen={'AddProducer'} />
+            <Button title={'Ajustes'} toScreen={'Settings'} />
+          </View>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Status dos Produtores</Text>
+            {negocitionDone + negocitionPending + negocitionRejected !== 0 && (
+              <PieChartScreen
+                done={negocitionDone}
+                pending={negocitionPending}
+                rejected={negocitionRejected}
+              />
+            )}
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -51,6 +76,9 @@ export default Dashboard;
 
 const createStyles = ({theme}: Styles) =>
   StyleSheet.create({
+    scrollContent: {
+      flexGrow: 1,
+    },
     container: {
       flex: 1,
       backgroundColor: theme.colors.background,
@@ -86,10 +114,21 @@ const createStyles = ({theme}: Styles) =>
       opacity: 0.3,
     },
     buttonsContainer: {
-      flex: 1,
+      // flex: 1,
       flexDirection: 'row',
       justifyContent: 'flex-start',
       paddingHorizontal: 20,
+      marginBottom: 20,
       gap: 10,
+    },
+    footerText: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: theme.colors.primary,
+    },
+    footer: {
+      flex: 1,
+      // borderWidth: 1,
+      paddingHorizontal: 20,
     },
   });

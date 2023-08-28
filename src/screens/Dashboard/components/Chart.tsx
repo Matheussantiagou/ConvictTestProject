@@ -79,6 +79,7 @@ const createStyles = ({theme}: Styles) =>
       justifyContent: 'center',
       flexDirection: 'row',
       paddingTop: 10,
+      marginBottom: 20,
     },
     title: {
       fontSize: 24,

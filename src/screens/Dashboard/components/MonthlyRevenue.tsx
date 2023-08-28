@@ -7,12 +7,12 @@ const MonthlyRevenue = ({value}: any) => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
 
-  // console.log(producers[0]._raw);
-
   return (
     <View style={styles.container}>
       <HeaderTitle title="Receita Mensal" />
-      <Text style={styles.revenue}>R$ {value?.toLocaleString() || 0}</Text>
+      <Text style={styles.revenue}>
+        R$ {value.toLocaleString('pt-Br') || 0}
+      </Text>
     </View>
   );
 };
