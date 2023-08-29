@@ -1,18 +1,19 @@
 import {SafeAreaView, StyleSheet, View, Text, Alert} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Styles, useAppTheme} from '../../theme';
 import {TopBar} from '../../components';
 import BoxOptions from './components/BoxOptions';
 import OptionsItem from './components/OptionsItem';
 import {database} from '../../services/watermelon';
 import RegionPicker from './components/RegionPicker';
-import {Switch} from 'react-native-paper';
 import SwitchOption from './components/SwitchOption';
 import {useThemeContext} from '../../hooks/useThemeContext';
+import ConfirmDeleteModal from '../UpdateProducer/components/ConfirmDeleteModal';
 
 const Settings = () => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
+  const [isVisible, setIsVisible] = useState(false);
 
   const {isThemeDark, toggleTheme} = useThemeContext();
 
@@ -33,6 +34,7 @@ const Settings = () => {
           await Promise.all(records.map(record => record.destroyPermanently()));
         }
       });
+      setIsVisible(false);
       Alert.alert('Sucesso', 'Dados excluídos com sucesso.');
     } catch (e) {
       Alert.alert('Erro', 'Erro ao excluir dados.');
@@ -97,6 +99,11 @@ const Settings = () => {
   return (
     <SafeAreaView style={styles.container}>
       <TopBar title="Ajustes" />
+      <ConfirmDeleteModal
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        onConfirm={handleDeleteBD}
+      />
       <View style={styles.body}>
         <BoxOptions title="Dados">
           <OptionsItem
@@ -110,7 +117,7 @@ const Settings = () => {
             title="Excluir Dados"
             color={theme.colors.error}
             iconName="trash-alt"
-            onPress={handleDeleteBD}
+            onPress={() => setIsVisible(true)}
           />
         </BoxOptions>
         <BoxOptions title="Preferências">

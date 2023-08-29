@@ -35,9 +35,7 @@ const ConfirmDeleteModal: FC<Props> = ({
           <TouchableOpacity style={styles.closeButton} onPress={handleCancel}>
             <Icon name={'close'} size={30} color={theme.colors.primary} />
           </TouchableOpacity>
-          <Text style={styles.title}>
-            Você tem certeza que deseja excluir o produtor?
-          </Text>
+          <Text style={styles.title}>Você tem certeza que deseja excluir?</Text>
         </View>
         <View style={styles.buttonsContainer}>
           <TouchableOpacity

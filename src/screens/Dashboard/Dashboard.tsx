@@ -33,7 +33,11 @@ const Dashboard = () => {
       getMilkPrice();
       getDairies();
       getPercentageIncrease();
+      getAllProducers();
     });
+    getMilkPrice();
+    getDairies();
+    getPercentageIncrease();
     getAllProducers();
     return unsubscribe;
   }, [navigation, defaultRegion, milkPrice]);
