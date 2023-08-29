@@ -6,7 +6,7 @@ import {database} from '../../../services/watermelon';
 import {useAppSelector} from '../../../store/redux';
 
 interface Props {
-  title: string;
+  title?: string;
   id: number;
   value: any;
   setValue: (value: any) => void;
@@ -26,18 +26,20 @@ const AddProducerDropdown: FC<Props> = ({title, id, value, setValue}) => {
     {value: 'centro-oeste', label: 'Centro-Oeste'},
   ];
 
-  useEffect(() => {}, []);
-
   return (
     <>
-      <Text style={styles.title}>{title}</Text>
+      {title !== 'setting' && <Text style={styles.title}>{title}</Text>}
       <DropDownPicker
         open={open}
         value={value}
-        items={title === 'Região' ? regions : dairies}
+        items={title === 'Região' || title === 'setting' ? regions : dairies}
         setOpen={setOpen}
         setValue={setValue}
-        style={{...styles.input, zIndex: id * 1000 + 1}}
+        style={{
+          ...styles.input,
+          zIndex: id * 1000 + 1,
+          height: title === 'setting' ? '100%' : 55,
+        }}
         placeholder="Selecionar"
         placeholderStyle={{
           color: theme.colors.outline,

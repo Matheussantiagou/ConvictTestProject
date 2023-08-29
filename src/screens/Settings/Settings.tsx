@@ -5,10 +5,16 @@ import {TopBar} from '../../components';
 import BoxOptions from './components/BoxOptions';
 import OptionsItem from './components/OptionsItem';
 import {database} from '../../services/watermelon';
+import RegionPicker from './components/RegionPicker';
+import {Switch} from 'react-native-paper';
+import SwitchOption from './components/SwitchOption';
+import {useThemeContext} from '../../hooks/useThemeContext';
 
 const Settings = () => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
+
+  const {isThemeDark, toggleTheme} = useThemeContext();
 
   async function handleDeleteBD() {
     try {
@@ -114,10 +120,35 @@ const Settings = () => {
                 styles.optionText,
                 {
                   color: theme.colors.primary,
+                  flex: 1,
                 },
               ]}>
               Região Padrão
             </Text>
+            <RegionPicker />
+          </View>
+          <View style={styles.line} />
+          <View
+            style={[
+              styles.options,
+              {
+                paddingRight: 30,
+              },
+            ]}>
+            <Text
+              style={[
+                styles.optionText,
+                {flex: 1, color: theme.colors.primary},
+              ]}>
+              Dark Mode
+            </Text>
+            <SwitchOption
+              label="Tema Escuro"
+              switchProps={{
+                value: isThemeDark,
+                onValueChange: toggleTheme,
+              }}
+            />
           </View>
         </BoxOptions>
       </View>
@@ -146,6 +177,7 @@ const createStyles = ({theme}: Styles) =>
       justifyContent: 'space-between',
       paddingHorizontal: 20,
       alignItems: 'center',
+      width: '100%',
     },
     optionText: {
       color: theme.colors.inversePrimary,
