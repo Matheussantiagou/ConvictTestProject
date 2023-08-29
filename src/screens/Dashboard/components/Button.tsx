@@ -27,7 +27,9 @@ const Button: FC<Props> = ({title, toScreen}) => {
       ) : (
         <Cog width={40} height={40} fill={theme.colors.primary} />
       )}
-      <Text style={styles.buttonText}>{title}</Text>
+      <Text numberOfLines={2} style={styles.buttonText}>
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -51,8 +53,10 @@ const createStyles = ({theme}: Styles) =>
       justifyContent: 'space-between',
     },
     buttonText: {
+      width: '100%',
       color: theme.colors.primary,
       fontSize: 18,
       fontWeight: '800',
+      // borderWidth: 1,
     },
   });

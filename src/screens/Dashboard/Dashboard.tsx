@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import useDatabase from '../../hooks/useDatabase';
 import {useAppSelector} from '../../store/redux';
 import {PieChartScreen} from './components/Chart';
+import EmptyComponent from '../MilkPriceHistory/components/EmptyComponent';
 
 const Dashboard = () => {
   const theme = useAppTheme();
@@ -61,13 +62,15 @@ const Dashboard = () => {
           </View>
           <View style={styles.footer}>
             <Text style={styles.footerText}>Status dos Produtores</Text>
-            {negocitionDone + negocitionPending + negocitionRejected !== 0 && (
+            {negocitionDone + negocitionPending + negocitionRejected !== 0 ? (
               <PieChartScreen
                 done={negocitionDone}
                 pending={negocitionPending}
                 rejected={negocitionRejected}
                 color={theme.colors.background}
               />
+            ) : (
+              <EmptyComponent />
             )}
           </View>
         </View>

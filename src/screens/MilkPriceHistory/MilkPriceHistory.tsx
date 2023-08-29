@@ -4,6 +4,7 @@ import {Styles, useAppTheme} from '../../theme';
 import {TopBar} from '../../components';
 import RenderItem from './components/RenderItem';
 import {database} from '../../services/watermelon';
+import EmptyComponent from './components/EmptyComponent';
 
 interface MilkPriceData {
   year: number;
@@ -56,6 +57,7 @@ const MilkPriceHistory = () => {
       <TopBar title="Histórico" />
       <View style={styles.body}>
         <SectionList
+          ListEmptyComponent={<EmptyComponent />}
           sections={milkPrice}
           keyExtractor={(item: MilkPriceData, index: number) =>
             `${item.month}-${index}`

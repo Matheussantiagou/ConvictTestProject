@@ -16,6 +16,7 @@ const OptionsItem: FC<Props> = ({title, color, iconName, onPress}) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
       <Text
+        numberOfLines={1}
         style={[
           styles.optionText,
           {

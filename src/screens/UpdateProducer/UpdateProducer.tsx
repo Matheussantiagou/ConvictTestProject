@@ -36,7 +36,7 @@ const UpdateProducer = ({route}: any) => {
   const navigation = useNavigation();
 
   async function handleUpdateRegister() {
-    if (name && milkProdution && region && negociationStatus) {
+    if (name && milkProdution && region && negociationStatus && milkName) {
       await database.write(async () => {
         const producers: any = await database.get('producers').find(id);
         await producers.update(() => {

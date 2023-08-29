@@ -90,6 +90,35 @@ export default function useDatabase() {
 
   const getAllProducers = async () => {
     let totalProduction = 0;
+
+    const allProducers: any[] = await database
+      .get('producers')
+      .query(
+        Q.and(
+          Q.where(
+            'region',
+            `${regions[defaultRegion - 1]?.nome.toLowerCase()}`,
+          ),
+          Q.where('negociation', Q.oneOf(['done'])),
+        ),
+      )
+      .fetch();
+
+    allProducers.forEach((producer: any) => {
+      const {daily_production} = producer._raw;
+
+      totalProduction += daily_production;
+    });
+
+    if (milkPrice !== 0) {
+      totalProduction *= milkPrice;
+    }
+
+    setTotalProduction(totalProduction);
+    getChartData();
+  };
+
+  const getChartData = async () => {
     let negocitionDone = 0;
     let negocitionPending = 0;
     let negocitionRejected = 0;
@@ -102,9 +131,7 @@ export default function useDatabase() {
       .fetch();
 
     allProducers.forEach((producer: any) => {
-      const {daily_production, negociation} = producer._raw;
-
-      totalProduction += daily_production;
+      const {negociation} = producer._raw;
 
       switch (negociation) {
         case 'done':
@@ -119,11 +146,6 @@ export default function useDatabase() {
       }
     });
 
-    if (milkPrice !== 0) {
-      totalProduction *= milkPrice;
-    }
-
-    setTotalProduction(totalProduction);
     setNegocitionDone(negocitionDone);
     setNegocitionPending(negocitionPending);
     setNegocitionRejected(negocitionRejected);

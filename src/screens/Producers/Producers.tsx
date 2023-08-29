@@ -52,10 +52,8 @@ const Producers = () => {
     let filteredQuery;
 
     if (translatedNegociation) {
-      // Se a tradução existe, filtre apenas pelo status de negociação
       filteredQuery = Q.and(regionCondition, negociationStatusCondition);
     } else {
-      // Senão, continue buscando pelo nome
       filteredQuery = Q.and(regionCondition, nameCondition);
     }
     return producersDB.query(filteredQuery).observe();
@@ -72,7 +70,7 @@ const Producers = () => {
       <View style={styles.body}>
         <RegionsList />
         <TextInput
-          placeholder={'Nome do Produtor...'}
+          placeholder={'Nome, status...'}
           placeholderTextColor={theme.colors.outline}
           style={styles.input}
           value={value}

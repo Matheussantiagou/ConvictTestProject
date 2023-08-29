@@ -20,7 +20,9 @@ const TopBar: FC<Props> = ({title}) => {
       <TouchableOpacity onPress={handlePress}>
         <Icon name="chevron-back" size={40} color={theme.colors.onPrimary} />
       </TouchableOpacity>
-      <Text style={styles.text}>{title}</Text>
+      <Text numberOfLines={1} style={styles.text}>
+        {title}
+      </Text>
     </View>
   );
 };
@@ -45,5 +47,7 @@ const createStyles = ({theme}: Styles) =>
       left: 10,
       fontSize: 25,
       fontWeight: '400',
+      width: '90%',
+      paddingRight: 10,
     },
   });

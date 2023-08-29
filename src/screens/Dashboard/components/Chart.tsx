@@ -44,8 +44,10 @@ export const PieChartScreen: FC<Props> = ({done, pending, rejected}) => {
       </View>
       <View style={styles.legendContainer}>
         <View style={styles.legend}>
-          <Text style={styles.legendTitle}>Contratados</Text>
-          <Text style={styles.legendTitle}>{done}</Text>
+          <Text numberOfLines={1} style={styles.legendTitle}>
+            Contratados
+          </Text>
+          <Text style={styles.number}>{done}</Text>
         </View>
         <View
           style={[
@@ -54,8 +56,10 @@ export const PieChartScreen: FC<Props> = ({done, pending, rejected}) => {
               backgroundColor: theme.colors.inversePrimary,
             },
           ]}>
-          <Text style={styles.legendTitle2}>Negociações</Text>
-          <Text style={styles.legendTitle2}>{pending}</Text>
+          <Text numberOfLines={1} style={styles.legendTitle2}>
+            Negociações
+          </Text>
+          <Text style={styles.number2}>{pending}</Text>
         </View>
         <View
           style={[
@@ -64,8 +68,10 @@ export const PieChartScreen: FC<Props> = ({done, pending, rejected}) => {
               backgroundColor: theme.colors.primaryContainer,
             },
           ]}>
-          <Text style={styles.legendTitle2}>Recusados</Text>
-          <Text style={styles.legendTitle2}>{rejected}</Text>
+          <Text numberOfLines={1} style={styles.legendTitle2}>
+            Recusados
+          </Text>
+          <Text style={styles.number2}>{rejected}</Text>
         </View>
       </View>
     </View>
@@ -106,11 +112,25 @@ const createStyles = ({theme}: Styles) =>
       paddingHorizontal: 10,
     },
     legendTitle: {
+      flex: 2,
       color: theme.colors.onPrimary,
       fontWeight: '500',
     },
     legendTitle2: {
+      flex: 2,
       color: theme.colors.primary,
       fontWeight: '500',
+    },
+    number: {
+      flex: 1,
+      color: theme.colors.onPrimary,
+      fontWeight: '500',
+      textAlign: 'right',
+    },
+    number2: {
+      flex: 1,
+      color: theme.colors.primary,
+      fontWeight: '500',
+      textAlign: 'right',
     },
   });

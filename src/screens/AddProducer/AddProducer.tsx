@@ -10,12 +10,10 @@ import {
 import React, {useState} from 'react';
 import {Styles, useAppTheme} from '../../theme';
 import {TopBar} from '../../components';
-import {TextInput} from 'react-native-paper';
 import AddProducerInput from './components/AddProducerInput';
 import AddProducerDropdown from './components/AddProducerDropdown';
 import Button from './components/Button';
 import {database} from '../../services/watermelon';
-import {IProducer, IProducers} from '../../@types/model';
 import {useNavigation} from '@react-navigation/native';
 
 const AddProducer = () => {
@@ -30,7 +28,7 @@ const AddProducer = () => {
   const [isScrollEnabled, setScrollEnabled] = useState(false);
 
   async function handlePressRegister() {
-    if (name && milkProdution && region && negociationStatus) {
+    if (name && milkProdution && region && negociationStatus && milkName) {
       await database.write(async () => {
         await database.collections.get('producers').create((producers: any) => {
           producers.name = name;

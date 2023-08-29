@@ -4,6 +4,8 @@ import {Styles, useAppTheme} from '../../../theme';
 import HeaderTitle from './HeaderTitle';
 import {useAppSelector} from '../../../store/redux';
 import ArrowUp from '../../../../assets/images/icons/ArrowUp.svg';
+import ArrowDown from '../../../../assets/images/icons/ArrowDown.svg';
+
 import ChartUp from '../../../../assets/images/icons/ChartUp.svg';
 import {useNavigation} from '@react-navigation/native';
 
@@ -22,26 +24,38 @@ const MilkPrice: FC = () => {
       <View style={styles.leftContainer}>
         <View style={styles.headerContainer}>
           <HeaderTitle title="Preço do Leite" />
-          <ArrowUp
-            height={15}
-            width={15}
-            fill={
-              percentage > 0 ? theme.colors.inversePrimary : theme.colors.error
-            }
-            style={styles.icon}
-          />
-          <Text
-            style={[
-              styles.percentage,
-              {
-                color:
-                  percentage > 0
-                    ? theme.colors.inversePrimary
-                    : theme.colors.error,
-              },
-            ]}>
-            {percentage}%
-          </Text>
+          {milkPrice !== 0 && (
+            <>
+              {percentage > 0 ? (
+                <ArrowUp
+                  height={15}
+                  width={15}
+                  fill={theme.colors.inversePrimary}
+                  style={styles.icon}
+                />
+              ) : (
+                <ArrowDown
+                  height={15}
+                  width={15}
+                  fill={theme.colors.error}
+                  style={styles.icon}
+                />
+              )}
+
+              <Text
+                style={[
+                  styles.percentage,
+                  {
+                    color:
+                      percentage > 0
+                        ? theme.colors.inversePrimary
+                        : theme.colors.error,
+                  },
+                ]}>
+                {percentage}%
+              </Text>
+            </>
+          )}
         </View>
         <Text style={styles.price}>
           R$ {milkPrice?.toLocaleString('pt-Br')} L
@@ -49,8 +63,10 @@ const MilkPrice: FC = () => {
       </View>
       <View style={styles.rightContainer}>
         <TouchableOpacity onPress={handlePress} style={styles.button}>
-          <Text style={styles.seeHistoryText}>Ver histórico</Text>
-          <ChartUp height={10} width={10} fill={theme.colors.inversePrimary} />
+          <Text numberOfLines={1} style={styles.seeHistoryText}>
+            Ver histórico
+          </Text>
+          <ChartUp height={12} width={12} fill={theme.colors.inversePrimary} />
         </TouchableOpacity>
       </View>
     </View>
@@ -84,22 +100,31 @@ const createStyles = ({theme}: Styles) =>
       marginLeft: 10,
     },
     leftContainer: {
-      flex: 2,
+      flex: 1,
     },
     rightContainer: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'flex-end',
       paddingRight: 5,
+      // borderWidth: 1,
     },
     seeHistoryText: {
       color: theme.colors.inversePrimary,
-      fontSize: 11,
+      fontSize: 13,
       fontWeight: '400',
+      // width: '100%',
+      // alignSelf: 'flex-end',
+      height: 30,
+      textAlignVertical: 'center',
+
+      textAlign: 'right',
     },
     button: {
+      minWidth: 120,
       flexDirection: 'row',
       alignItems: 'center',
       gap: 5,
+      padding: 10,
     },
   });

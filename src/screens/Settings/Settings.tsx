@@ -123,6 +123,7 @@ const Settings = () => {
         <BoxOptions title="Preferências">
           <View style={styles.options}>
             <Text
+              numberOfLines={1}
               style={[
                 styles.optionText,
                 {
@@ -143,6 +144,7 @@ const Settings = () => {
               },
             ]}>
             <Text
+              numberOfLines={1}
               style={[
                 styles.optionText,
                 {flex: 1, color: theme.colors.primary},

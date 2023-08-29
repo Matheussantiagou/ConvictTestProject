@@ -68,7 +68,7 @@ const Button: FC<ButtonProps> = ({
         />
       )}
       <Text
-        numberOfLines={1}
+        numberOfLines={2}
         style={[
           styles.title,
           {
@@ -95,10 +95,11 @@ const createStyles = ({theme}: Styles) =>
       borderRadius: 5,
       justifyContent: 'center',
       alignItems: 'center',
+      marginTop: 5,
     },
     title: {
       marginTop: 5,
-      fontSize: 14,
+      fontSize: 11,
       fontWeight: '600',
       color: theme.colors.primary,
       textAlign: 'center',
