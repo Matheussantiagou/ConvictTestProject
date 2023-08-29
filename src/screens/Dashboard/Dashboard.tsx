@@ -51,7 +51,7 @@ const Dashboard = () => {
         <View style={styles.header}>
           <Text style={styles.title}>Dashboard</Text>
           <RegionsList isAtHome />
-          <MonthlyRevenue value={totalProduction} />
+          <MonthlyRevenue value={milkPrice !== 0 ? totalProduction : 0} />
           <View style={styles.line} />
           <MilkPrice />
         </View>
@@ -67,6 +67,7 @@ const Dashboard = () => {
                 done={negocitionDone}
                 pending={negocitionPending}
                 rejected={negocitionRejected}
+                color={theme.colors.background}
               />
             )}
           </View>

@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import {Styles, useAppTheme} from '../../theme';
@@ -29,17 +30,19 @@ const AddProducer = () => {
   const [isScrollEnabled, setScrollEnabled] = useState(false);
 
   async function handlePressRegister() {
-    console.log(typeof milkProdution);
-    await database.write(async () => {
-      await database.collections.get('producers').create((producers: any) => {
-        producers.name = name;
-        producers.daily_production = parseInt(milkProdution, 10);
-        producers.region = region;
-        producers.dairy_id = milkName;
-        producers.negociation = negociationStatus;
+    if (name && milkProdution && region && negociationStatus) {
+      console.log(typeof milkProdution);
+      await database.write(async () => {
+        await database.collections.get('producers').create((producers: any) => {
+          producers.name = name;
+          producers.daily_production = parseInt(milkProdution, 10);
+          producers.region = region;
+          producers.dairy_id = milkName;
+          producers.negociation = negociationStatus;
+        });
       });
-    });
-    navigation.goBack();
+      navigation.goBack();
+    } else Alert.alert('Preencha todos os campos');
   }
 
   return (

@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Styles, useAppTheme} from '../../theme';
@@ -35,18 +36,20 @@ const UpdateProducer = ({route}: any) => {
   const navigation = useNavigation();
 
   async function handleUpdateRegister() {
-    await database.write(async () => {
-      const producers: any = await database.get('producers').find(id);
-      await producers.update(() => {
-        producers.name = producerName;
-        producers.daily_production = parseInt(milkProdution, 10);
-        producers.region = producerRegion;
-        producers.dairy_id = milkName;
-        producers.negociation = negociationStatus;
+    if (name && milkProdution && region && negociationStatus) {
+      await database.write(async () => {
+        const producers: any = await database.get('producers').find(id);
+        await producers.update(() => {
+          producers.name = producerName;
+          producers.daily_production = parseInt(milkProdution, 10);
+          producers.region = producerRegion;
+          producers.dairy_id = milkName;
+          producers.negociation = negociationStatus;
+        });
       });
-    });
 
-    navigation.goBack();
+      navigation.goBack();
+    } else Alert.alert('Preencha todos os campos');
   }
 
   async function handleDeleteRegister() {

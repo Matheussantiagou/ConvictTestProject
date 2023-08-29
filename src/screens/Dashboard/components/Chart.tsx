@@ -2,16 +2,18 @@ import React, {Component, FC, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import PieChart from 'react-native-pie-chart';
 import {Styles, useAppTheme} from '../../../theme';
+import {ThemeContext} from '../../../contexts/ThemeContext';
 
 interface Props {
   done: number;
   pending: number;
   rejected: number;
+  color?: string;
 }
 
 export default class Chart extends Component<Props> {
   render() {
-    const {done, pending, rejected} = this.props;
+    const {done, pending, rejected, color} = this.props;
     const series = [done, pending, rejected];
     const sliceColor = [
       'rgb(1, 92, 75)',
@@ -25,7 +27,7 @@ export default class Chart extends Component<Props> {
         series={series}
         sliceColor={sliceColor}
         coverRadius={0.65}
-        coverFill={'#FFF'}
+        coverFill={color}
       />
     );
   }
