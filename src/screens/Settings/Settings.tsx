@@ -9,11 +9,16 @@ import RegionPicker from './components/RegionPicker';
 import SwitchOption from './components/SwitchOption';
 import {useThemeContext} from '../../hooks/useThemeContext';
 import ConfirmDeleteModal from '../UpdateProducer/components/ConfirmDeleteModal';
+import {useAppSelector} from '../../store/redux';
+import {useDispatch} from 'react-redux';
+import {setUpdated} from '../../store/redux/slices/dataBaseSlice';
 
 const Settings = () => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
   const [isVisible, setIsVisible] = useState(false);
+  const {updated} = useAppSelector(state => state.dataBase);
+  const dispatch = useDispatch();
 
   const {isThemeDark, toggleTheme} = useThemeContext();
 
@@ -35,6 +40,7 @@ const Settings = () => {
         }
       });
       setIsVisible(false);
+      dispatch(setUpdated(false));
       Alert.alert('Sucesso', 'Dados excluídos com sucesso.');
     } catch (e) {
       Alert.alert('Erro', 'Erro ao excluir dados.');
@@ -43,56 +49,61 @@ const Settings = () => {
   }
 
   async function loadDataFromJson() {
-    try {
-      const data = require('../../mock/data.json');
-      const validTables = ['producers', 'milk_price'];
+    if (!updated) {
+      try {
+        const data = require('../../mock/data.json');
+        const validTables = ['producers', 'milk_price'];
 
-      // Loading producers and milk_price tables
-      await database.write(async () => {
-        for (const key of Object.keys(data)) {
-          if (!validTables.includes(key)) {
-            console.log(`Skipping invalid table: ${key}`);
-            continue;
+        // Loading producers and milk_price tables
+        await database.write(async () => {
+          for (const key of Object.keys(data)) {
+            if (!validTables.includes(key)) {
+              console.log(`Skipping invalid table: ${key}`);
+              continue;
+            }
+            const collection = database.get(key);
+            if (!collection) {
+              console.log(`Collection for ${key} is null`);
+              continue;
+            }
+            for (const record of data[key]) {
+              await collection.create((newRecord: any) => {
+                for (const field of Object.keys(record)) {
+                  newRecord[field] = record[field];
+                }
+              });
+              console.log(`Record inserted for table ${key}`);
+            }
           }
-          const collection = database.get(key);
-          if (!collection) {
-            console.log(`Collection for ${key} is null`);
-            continue;
+        });
+
+        //Loading dairies table
+        await database.write(async () => {
+          const dairiesCollection = database.get('dairies');
+          if (!dairiesCollection) {
+            console.log(`Collection for dairies is null`);
+            return;
           }
-          for (const record of data[key]) {
-            await collection.create((newRecord: any) => {
-              for (const field of Object.keys(record)) {
-                newRecord[field] = record[field];
-              }
+
+          for (const record of data['dairies']) {
+            const {id, name} = record; // Assuming your data structure has 'id' and 'name' fields
+            await dairiesCollection.create((newRecord: any) => {
+              newRecord.dairy_id = id;
+              newRecord.name = name;
             });
-            console.log(`Record inserted for table ${key}`);
+            console.log(`Record inserted for table dairies`);
           }
-        }
-      });
+        });
 
-      //Loading dairies table
-      await database.write(async () => {
-        const dairiesCollection = database.get('dairies');
-        if (!dairiesCollection) {
-          console.log(`Collection for dairies is null`);
-          return;
-        }
-
-        for (const record of data['dairies']) {
-          const {id, name} = record; // Assuming your data structure has 'id' and 'name' fields
-          await dairiesCollection.create((newRecord: any) => {
-            newRecord.dairy_id = id;
-            newRecord.name = name;
-          });
-          console.log(`Record inserted for table dairies`);
-        }
-      });
-
-      Alert.alert('Sucesso', 'Dados carregados com sucesso.');
-      console.log('Data loaded successfully.');
-    } catch (e) {
-      Alert.alert('Erro', 'Erro ao carregar dados.');
-      console.error(`An error occurred: ${e}`);
+        Alert.alert('Sucesso', 'Dados carregados com sucesso.');
+        dispatch(setUpdated(true));
+        console.log('Data loaded successfully.');
+      } catch (e) {
+        Alert.alert('Erro', 'Erro ao carregar dados.');
+        console.error(`An error occurred: ${e}`);
+      }
+    } else {
+      Alert.alert('Erro', 'Os dados já foram carregados.');
     }
   }
 
