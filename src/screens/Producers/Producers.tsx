@@ -28,7 +28,7 @@ const Producers = () => {
   const [value, setValue] = React.useState('');
   const {defaultRegion} = useAppSelector(state => state.dataBase);
 
-  const negociationTranslation = {
+  const negociationTranslation: {[key: string]: string} = {
     contratado: 'done',
     recusado: 'closed',
     negociação: 'in progress',
@@ -58,7 +58,6 @@ const Producers = () => {
       // Senão, continue buscando pelo nome
       filteredQuery = Q.and(regionCondition, nameCondition);
     }
-
     return producersDB.query(filteredQuery).observe();
   };
 

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {database} from '../services/watermelon';
 import {Q} from '@nozbe/watermelondb';
 import {
@@ -16,29 +16,48 @@ const regions = [
   {id: 5, nome: 'Centro-Oeste'},
 ];
 
+interface RawData {
+  year: number;
+  month: number;
+  value: number;
+}
+
+interface Region {
+  id: number;
+  nome: string;
+}
+
+interface ProducerRaw {
+  daily_production: number;
+  negociation: string;
+}
+
 export default function useDatabase() {
-  const {milkPrice, defaultRegion} = useAppSelector(state => state.dataBase);
-  const [totalProduction, setTotalProduction] = React.useState(0);
   const dispatch = useAppDispatch();
-  const [negocitionDone, setNegocitionDone] = React.useState(0);
-  const [negocitionPending, setNegocitionPending] = React.useState(0);
-  const [negocitionRejected, setNegocitionRejected] = React.useState(0);
+  const {milkPrice, defaultRegion} = useAppSelector(state => state.dataBase);
+  const [totalProduction, setTotalProduction] = useState<number>(0);
+  const [negocitionDone, setNegocitionDone] = useState<number>(0);
+  const [negocitionPending, setNegocitionPending] = useState<number>(0);
+  const [negocitionRejected, setNegocitionRejected] = useState<number>(0);
 
   const getPercentageIncrease = async () => {
-    const milkPriceDB = await database.get('milk_price').query().fetch();
+    const milkPriceDB: any[] = await database.get('milk_price').query().fetch();
     if (milkPriceDB.length < 2) return dispatch(setPercentage(0));
 
     const sortedData = milkPriceDB.sort((a, b) => {
-      if (a._raw.year === b._raw.year) {
-        return a._raw.month - b._raw.month;
+      const dataA: RawData = a._raw;
+      const dataB: RawData = b._raw;
+
+      if (dataA.year === dataB.year) {
+        return dataA.month - dataB.month;
       }
-      return a._raw.year - b._raw.year;
+      return dataA.year - dataB.year;
     });
 
     const lastMonth = sortedData[sortedData.length - 1]._raw;
     const penultimateMonth = sortedData[sortedData.length - 2]._raw;
 
-    const percentageIncrease =
+    const percentageIncrease: number =
       ((lastMonth.value - penultimateMonth.value) / penultimateMonth.value) *
       100;
 
@@ -46,7 +65,7 @@ export default function useDatabase() {
   };
 
   const getMilkPrice = async () => {
-    const milkPriceDB = await database.get('milk_price').query().fetch();
+    const milkPriceDB: any[] = await database.get('milk_price').query().fetch();
 
     if (milkPriceDB.length === 0) {
       return dispatch(setReduxMilkPrice(0));
@@ -75,7 +94,7 @@ export default function useDatabase() {
     let negocitionPending = 0;
     let negocitionRejected = 0;
 
-    const allProducers = await database
+    const allProducers: any[] = await database
       .get('producers')
       .query(
         Q.where('region', `${regions[defaultRegion - 1]?.nome.toLowerCase()}`),

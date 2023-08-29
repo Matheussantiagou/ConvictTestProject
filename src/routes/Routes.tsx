@@ -10,7 +10,6 @@ export default function Navigator() {
   const loadRegionFromStorage = async () => {
     const storedRegion = await AsyncStorage.getItem('defaultRegion');
     if (storedRegion !== null) {
-      // setRegion(JSON.parse(storedRegion));
       dispatch(setDefaultRegion(JSON.parse(storedRegion)));
     }
   };

@@ -1,9 +1,4 @@
-import {
-  addColumns,
-  createTable,
-  schemaMigrations,
-} from '@nozbe/watermelondb/Schema/migrations';
-import {create} from 'react-test-renderer';
+import {schemaMigrations} from '@nozbe/watermelondb/Schema/migrations';
 
 export default schemaMigrations({
   migrations: [],

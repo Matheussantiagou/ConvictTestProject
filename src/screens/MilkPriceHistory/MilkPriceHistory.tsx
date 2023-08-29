@@ -1,40 +1,46 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  FlatList,
-  SectionList,
-} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, View, SafeAreaView, SectionList} from 'react-native';
+import React, {useState} from 'react';
 import {Styles, useAppTheme} from '../../theme';
 import {TopBar} from '../../components';
 import RenderItem from './components/RenderItem';
 import {database} from '../../services/watermelon';
-import BoxOptions from '../Settings/components/BoxOptions';
+
+interface MilkPriceData {
+  year: number;
+  value: number;
+  month: number;
+}
+
+interface GroupedData {
+  title: number;
+  data: MilkPriceData[];
+}
 
 const MilkPriceHistory = () => {
   const theme = useAppTheme();
   const styles = createStyles({theme});
-  const [milkPrice, setMilkPrice] = React.useState([]);
+  const [milkPrice, setMilkPrice] = useState<GroupedData[]>([]);
 
   const milkPrices = async () => {
-    const milkPriceDB = await database.get('milk_price').query().fetch();
+    const milkPriceDB: any[] = await database.get('milk_price').query().fetch();
 
-    const groupedData = milkPriceDB.reduce((acc, record: any) => {
-      const year = record._raw.year;
+    const groupedData: {[key: number]: GroupedData} = milkPriceDB.reduce(
+      (acc, record: any) => {
+        const year = record._raw.year;
 
-      if (!acc[year]) {
-        acc[year] = {title: year, data: []};
-      }
+        if (!acc[year]) {
+          acc[year] = {title: year, data: []};
+        }
 
-      acc[year].data.push({
-        value: record._raw.value,
-        month: record._raw.month,
-      });
+        acc[year].data.push({
+          value: record._raw.value,
+          month: record._raw.month,
+        });
 
-      return acc;
-    }, {});
+        return acc;
+      },
+      {},
+    );
 
     const simplifiedData = Object.values(groupedData);
 
@@ -51,7 +57,9 @@ const MilkPriceHistory = () => {
       <View style={styles.body}>
         <SectionList
           sections={milkPrice}
-          keyExtractor={(item, index) => item + index}
+          keyExtractor={(item: MilkPriceData, index: number) =>
+            `${item.month}-${index}`
+          }
           renderItem={({item}) => (
             <RenderItem item={item} key={item.month + item.year} />
           )}
