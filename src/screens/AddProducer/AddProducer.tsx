@@ -31,7 +31,6 @@ const AddProducer = () => {
 
   async function handlePressRegister() {
     if (name && milkProdution && region && negociationStatus) {
-      console.log(typeof milkProdution);
       await database.write(async () => {
         await database.collections.get('producers').create((producers: any) => {
           producers.name = name;

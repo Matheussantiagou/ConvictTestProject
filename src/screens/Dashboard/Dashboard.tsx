@@ -29,7 +29,6 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('Dashboard focused');
       getMilkPrice();
       getDairies();
       getPercentageIncrease();

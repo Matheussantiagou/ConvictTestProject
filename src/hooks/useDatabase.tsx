@@ -147,11 +147,9 @@ export default function useDatabase() {
   useEffect(() => {
     getAllProducers();
     getMilkPrice();
-    console.log('useDatabase', defaultRegion);
   }, [defaultRegion]);
 
   useEffect(() => {
-    console.log('Peguei os dairies');
     getDairies();
   }, []);
 
